@@ -1,0 +1,20 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run --env CI=true lfbos19/react-test yarn test --coverage
+
+after_success:
+  - docker build -t lfbos19/multi-client ./client
+  - docker build -t lfbos19/multi-nginx ./nginx
+  - docker build -t lfbos19/multi-server ./server
+  - docker build -t lfbos19/multi-worker ./worker
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push lfbos19/multi-client
+  - docker push lfbos19/multi-nginx
+  - docker push lfbos19/multi-server
+  - docker push lfbos19/multi-worker
