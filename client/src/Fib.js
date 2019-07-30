@@ -37,11 +37,11 @@ class Fib extends Component {
     this.fetchIndexes();
   };
 
-  renderSeenIndexes() {
+  renderSeenIndexes = () => {
     return this.state.seenIndexes.map(({ number }) => number).join(', ');
-  }
+  };
 
-  renderValues() {
+  renderValues = () => {
     const entries = [];
 
     for (let key in this.state.values) {
@@ -53,7 +53,7 @@ class Fib extends Component {
     }
 
     return entries;
-  }
+  };
 
   render() {
     return (
